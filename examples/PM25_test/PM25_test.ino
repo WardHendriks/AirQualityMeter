@@ -6,8 +6,8 @@
 // we must use software serial...
 // pin #2 is IN from sensor (TX pin on sensor), leave pin #3 disconnected
 // comment these two lines if using hardware serial
-//#include <SoftwareSerial.h>
-//SoftwareSerial pmSerial(2, 3);
+#include <SoftwareSerial.h>
+SoftwareSerial pmSerial(2, 3);
 
 Adafruit_PM25AQI aqi = Adafruit_PM25AQI();
 
@@ -24,12 +24,12 @@ void setup() {
   // If using serial, initialize it and set baudrate before starting!
   // Uncomment one of the following
   //Serial1.begin(9600);
-  //pmSerial.begin(9600);
+  pmSerial.begin(9600);
 
   // There are 3 options for connectivity!
-  if (! aqi.begin_I2C()) {      // connect to the sensor over I2C
+  //if (! aqi.begin_I2C()) {      // connect to the sensor over I2C
   //if (! aqi.begin_UART(&Serial1)) { // connect to the sensor over hardware serial
-  //if (! aqi.begin_UART(&pmSerial)) { // connect to the sensor over software serial 
+  if (! aqi.begin_UART(&pmSerial)) { // connect to the sensor over software serial 
     Serial.println("Could not find PM 2.5 sensor!");
     while (1) delay(10);
   }
